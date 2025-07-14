@@ -25,10 +25,9 @@ async function populateStates(){
 //Display city from web API after entering a zip code.
 async function displayCity(){
 	let zipcode = document.querySelector("#zip").value;
-	let zipError = document.querySelector("#zipError");
 	
 	if(zipcode === ""){
-		zipError.innerHTML = "";
+		hideElement("zipError");
 		document.querySelector("#city").innerHTML = "";
 		document.querySelector("#latitude").innerHTML = "";
 		document.querySelector("#longitude").innerHTML = "";
@@ -39,14 +38,13 @@ async function displayCity(){
 	let data = await response.json();
 	
 	if(!data){
-		zipError.innerHTML = `<strong>Error:</strong> zipcode does not exist.`
-		zipError.style.color = "red";
+		setError("zipError","<strong>Error:</strong> zipcode does not exist.");
 		document.querySelector("#city").innerHTML = "";
 		document.querySelector("#latitude").innerHTML = "";
 		document.querySelector("#longitude").innerHTML = "";
 		return;
 	}else{
-		zipError.innerHTML = "";
+		hideElement("zipError");
 		document.querySelector("#city").innerHTML = data.city;
 		document.querySelector("#latitude").innerHTML = data.latitude;
 		document.querySelector("#longitude").innerHTML = data.longitude;
@@ -103,27 +101,90 @@ async function suggestPassword(){
 	}
 }
 
+function setError(errorID, msg){
+	let error = document.querySelector("#"+errorID);
+	showElement(errorID);
+	error.innerHTML = msg;
+	error.style.color = "red";
+}
+
+function hideElement(elementID){
+	document.querySelector("#"+elementID).classList.add("d-none");
+}
+
+function showElement(elementID){
+	document.querySelector("#"+elementID).classList.remove("d-none");
+}
+
 function validateForm(e){
 	let isValid = true;
 	let username = document.querySelector("#username").value;
+	hideElement("usernameError");
 	if(username.length == 0){
-		document.querySelector("#usernameError").innerHTML = "Username Required!";
-		document.querySelector("#usernameError").style.color = "red";
+		setError("usernameError","Username Required!")
 		isValid = false;
 	}
 	
-	let password1 = document.querySelector("#pwdOne");
-	let password2 = document.querySelector("#pwdTwo");
-	let passwordError = document.querySelector("#passwordError");
+	hideElement("passwordError");
+	let password1 = document.querySelector("#pwdOne").value;
+	let password2 = document.querySelector("#pwdTwo").value;
 	
-	if(password1.length < 6 || password1.value == ""){
-		passwordError.innerHTML = "Password must be at least 6 characters long."
-		passwordError.style.color = "red";
+	if(password1.length < 6){
+		setError("passwordError","Password must be at least 6 characters long.");
 		isValid = false;
 	}
 	
-	if(password1.value !== password2.value){
-		passwordError.innerHTML = "<strong>Error:</strong> passwords do not match.";
+	if(password1.value !== password2.value || password2.length < 6){
+		setError("passwordError","<strong>Error:</strong> passwords do not match.");
+		isValid = false;
+	}
+	
+	hideElement("fnameError");
+	hideElement("lnameError");
+	let fname = document.querySelector("#fname").value;
+	let lname = document.querySelector("#lname").value;
+	
+	if(fname.length < 1){
+		setError("fnameError","Enter first name.");
+		isValid = false;
+	}
+	
+	if(lname.length < 1){
+		setError("lnameError","Enter last name.");
+		isValid = false;
+	}
+	
+	
+	hideElement("genderError");
+	let genderOptions = document.getElementsByName("gender");
+	for(let option of genderOptions){
+		if(option.checked){
+			if(option.value === ""){
+				setError("genderError","Choose a gender");
+				isValid = false;
+			}
+			break;
+		}
+	}
+	
+	
+	hideElement("stateError");
+	if(document.querySelector("#state").value === ""){
+		setError("stateError", "Please select a state.");
+		isValid = false;
+	}
+	
+	
+	hideElement("countyError");
+	if(document.querySelector("#county").value === "Select County"){
+		setError("countyError", "Please select a county.");
+		isValid = false;
+	}
+	
+	
+	hideElement("zipError");
+	if(document.querySelector("#zip").value === ""){
+		setError("zipError", "Please enter a valid zipcode.");
 		isValid = false;
 	}
 	

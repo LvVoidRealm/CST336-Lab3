@@ -9,32 +9,34 @@
 <body class="bg-dark d-grid justify-content-center">
     <h1 class="text-primary text-center text-start mx-auto"> Sign Up </h1>
 	<form id="signupForm" action="welcome.html"  class="text-light text-start mx-auto">
-		 First Name: <input type="text" name="fName"><br>
-		 Last Name: <input type="text" name="lName"><br>
-		 Gender:    
+		 First Name: <input type="text" name="fName" id="fname"><span id="fnameError"></span><br>
+		 Last Name: <input type="text" name="lName" id="lname"><span id="lnameError"></span><br>
+		 Gender:
+			 <input type="radio" name="gender" value="" class="d-none" checked="checked"> 
 			 <input type="radio" name="gender" value="m">Male 
-			 <input type="radio" name="gender" value="f">Female<br>	
+			 <input type="radio" name="gender" value="f">Female 
+			 <span id="genderError"></span><br>
 		  Zip Code:  <input type="text" id="zip" name="zip">
 			<span id="zipError"></span><br>
 		  City:   <span id="city"></span> <br>
 		  Latitude:  <span id="latitude"></span><br>
 		  Longitude: <span id="longitude"></span><br><br>
 
-		  State: 
+		  State:
 		  <select id="state" name="state">
-		  </select> <br>
+		  </select><span id="stateError"></span><br>
 
 
-			Select a County: <select id="county"></select><br>
+			Select a County: <select id="county"></select><span id="countyError"></span><br>
 
 
 			Desired Username: 
-			<input type="text" id="username"><br>
+			<input type="text" id="username">
 			<span id="usernameError"></span><br>
 
 
-			Password: <input id="pwdOne" type="password"><br>
-				<span id="suggestedPwd"></span> <br>
+			Password: <input id="pwdOne" type="password">
+				<span id="suggestedPwd"></span><br>
 			Type Password Again: <input id="pwdTwo" type="password"><br>
 				<span id="passwordError"></span><br>
 
